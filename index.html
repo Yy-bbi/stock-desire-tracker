@@ -101,7 +101,7 @@
 
             <!-- Global Controls -->
             <div class="flex items-center space-x-3 text-xs sm:text-sm flex-wrap gap-2">
-                <!-- 언어 선택 드롭다운 -->
+                <!-- 다국어 언어 선택기 -->
                 <div class="flex items-center bg-gray-900/90 border border-gray-700/80 rounded-lg px-2.5 py-1.5 space-x-1.5">
                     <i class="fa-solid fa-language text-purple-400"></i>
                     <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-gray-800 text-gray-200 font-semibold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-purple-500 cursor-pointer text-xs">
@@ -184,13 +184,6 @@
                         <label id="step1HeaderLabel" class="text-xs font-semibold text-purple-400 tracking-wider uppercase">1. 내 주식 선택</label>
                         <div class="flex items-center gap-2">
                             <select id="stockSortSelect" onchange="handleStockSortChange()" class="text-[11px] bg-gray-800 text-gray-300 border border-gray-700 rounded px-1.5 py-0.5 focus:outline-none">
-                                <option value="valueDesc">평가액 높은순</option>
-                                <option value="valueAsc">평가액 낮은순</option>
-                                <option value="returnDesc">수익률 높은순 🔥</option>
-                                <option value="returnAsc">수익률 낮은순 📉</option>
-                                <option value="name">이름순</option>
-                                <option value="priceDesc">주가 높은순</option>
-                                <option value="sharesDesc">보유 수량순</option>
                             </select>
                             <button id="stockToggleAllBtn" onclick="toggleAllStocks()" class="text-[10px] text-purple-300 bg-purple-950/80 hover:bg-purple-900 border border-purple-800/80 px-2 py-0.5 rounded font-semibold transition">
                                 전체 선택
@@ -220,14 +213,9 @@
                         <label id="step2HeaderLabel" class="text-xs font-semibold text-pink-400 tracking-wider uppercase">2. 갖고 싶은 물욕 아이템 선택</label>
                         <div class="flex items-center gap-1.5">
                             <select id="wishlistSortSelect" onchange="handleWishlistSortChange()" class="text-[11px] bg-gray-800 text-gray-300 border border-gray-700 rounded px-1.5 py-0.5 focus:outline-none">
-                                <option value="priceDesc">가격 높은순</option>
-                                <option value="priceAsc">가격 낮은순</option>
-                                <option value="name">이름순</option>
-                                <option value="category">카테고리순</option>
                             </select>
 
                             <select id="wishlistCategoryFilter" onchange="handleWishlistCategoryFilterChange()" class="text-[11px] bg-pink-950 text-pink-300 border border-pink-800 rounded px-1.5 py-0.5 font-semibold focus:outline-none">
-                                <option value="ALL">전체 카테고리</option>
                             </select>
 
                             <button id="wishlistToggleAllBtn" onclick="toggleAllWishlists()" class="text-[10px] text-pink-300 bg-pink-950/80 hover:bg-pink-900 border border-pink-800/80 px-2 py-0.5 rounded font-semibold transition">
@@ -336,12 +324,8 @@
 
                     <div class="flex items-center gap-2">
                         <select id="bottomWishlistCategoryFilter" onchange="handleBottomWishlistCategoryChange()" class="text-xs bg-pink-950 text-pink-300 border border-pink-800 rounded-lg px-2.5 py-1.5 font-semibold focus:outline-none">
-                            <option value="ALL">전체 카테고리</option>
                         </select>
                         <select id="bottomWishlistSortSelect" onchange="handleBottomWishlistSortChange()" class="text-xs bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-pink-500">
-                            <option value="priceDesc">가격 높은순</option>
-                            <option value="priceAsc">가격 낮은순</option>
-                            <option value="name">이름순</option>
                         </select>
                         <button onclick="openAddWishlistModal()" class="bg-pink-600/80 hover:bg-pink-600 text-white text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg shadow-pink-600/20">
                             <i class="fa-solid fa-plus"></i> <span id="addWishlistBtnText">물욕 아이템 추가</span>
@@ -375,13 +359,6 @@
 
                     <div class="flex items-center gap-2">
                         <select id="portfolioStockSortSelect" onchange="handlePortfolioStockSortChange()" class="text-xs bg-gray-800 text-gray-300 border border-gray-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-purple-500">
-                            <option value="valueDesc">평가액 높은순</option>
-                            <option value="valueAsc">평가액 낮은순</option>
-                            <option value="returnDesc">수익률 높은순 🔥</option>
-                            <option value="returnAsc">수익률 낮은순 📉</option>
-                            <option value="name">이름순</option>
-                            <option value="priceDesc">주가 높은순</option>
-                            <option value="sharesDesc">보유 수량순</option>
                         </select>
                         
                         <button onclick="refreshAllStockPrices(true)" title="보유 주식 실시간 시세 새로고침" class="bg-gray-800 hover:bg-gray-700 text-purple-300 border border-gray-700 text-xs font-semibold px-2.5 py-2 rounded-lg transition flex items-center gap-1 shadow">
@@ -430,23 +407,23 @@
     <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-card bg-gray-900 border-gray-700 rounded-2xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                <h3 id="apiKeyModalHeader" class="font-bold text-white text-base flex items-center gap-2">
                     <i class="fa-solid fa-key text-yellow-400"></i> API 키 설정 (Finnhub & 공공데이터포럼)
                 </h3>
                 <button onclick="closeModal('apiKeyModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-3 text-xs text-gray-300">
-                <p class="leading-relaxed">해외 주식(Finnhub) 및 한국 주식(공공데이터포럼) 조회를 위한 API 설정입니다. 키를 입력하지 않아도 기본 내장 DB와 야후 파이낸스 시세가 작동합니다.</p>
+                <p id="apiKeyModalDesc" class="leading-relaxed">해외 주식 및 한국 주식 조회를 위한 API 설정입니다. 키를 입력하지 않아도 기본 내장 DB와 야후 파이낸스 시세가 작동합니다.</p>
                 <div>
-                    <label class="block text-gray-400 mb-1 font-semibold">Finnhub API Key (해외주식용)</label>
+                    <label id="finnhubKeyLabel" class="block text-gray-400 mb-1 font-semibold">Finnhub API Key (해외주식용)</label>
                     <input type="text" id="globalFinnhubApiKeyInput" placeholder="예: c1234567890abcdef" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-purple-500">
                 </div>
                 <div class="pt-1">
-                    <label class="block text-gray-400 mb-1 font-semibold">공공데이터포럼 인증키 (ServiceKey - 한국주식용)</label>
+                    <label id="dataGovKeyLabel" class="block text-gray-400 mb-1 font-semibold">공공데이터포럼 인증키 (ServiceKey - 한국주식용)</label>
                     <input type="text" id="globalDataGovKeyInput" placeholder="공공데이터포럼 인증키 (Encoding/Decoding)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-purple-500">
                 </div>
                 <div class="pt-2">
-                    <button type="button" onclick="saveApiKeyFromModal()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition">API 키 저장하기</button>
+                    <button type="button" onclick="saveApiKeyFromModal()" id="apiKeySaveBtnText" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition">API 키 저장하기</button>
                 </div>
             </div>
         </div>
@@ -463,37 +440,37 @@
                 <input type="hidden" id="editWishlistId" value="">
 
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">상품명</label>
+                    <label id="modalItemNameLabel" class="block text-xs text-gray-400 mb-1">상품명</label>
                     <input type="text" id="newItemName" placeholder="예: Van Cleef & Arpels Perlee" required class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-pink-500">
                 </div>
 
                 <div>
-                    <label class="block text-xs text-purple-400 mb-1">상품 / 모델 코드 (선택사항)</label>
+                    <label id="modalItemCodeLabel" class="block text-xs text-purple-400 mb-1">상품 / 모델 코드 (선택사항)</label>
                     <input type="text" id="newItemModelCode" placeholder="예: VCARN5B100" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-pink-300 font-medium">갖고 싶어진 날짜</label>
+                            <label id="modalDesireDateLabel" class="text-xs text-pink-300 font-medium">갖고 싶어진 날짜</label>
                             <div class="flex gap-1">
-                                <button type="button" onclick="setDesireDateToday()" class="text-[10px] bg-pink-950 text-pink-300 border border-pink-800 hover:bg-pink-900 px-1.5 py-0.5 rounded font-bold transition">오늘</button>
-                                <button type="button" onclick="clearDesireDate()" class="text-[10px] bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 hover:text-white px-1.5 py-0.5 rounded font-bold transition">지움</button>
+                                <button type="button" onclick="setDesireDateToday()" id="btnDateToday" class="text-[10px] bg-pink-950 text-pink-300 border border-pink-800 hover:bg-pink-900 px-1.5 py-0.5 rounded font-bold transition">오늘</button>
+                                <button type="button" onclick="clearDesireDate()" id="btnDateClear" class="text-[10px] bg-gray-800 text-gray-400 border border-gray-700 hover:bg-gray-700 hover:text-white px-1.5 py-0.5 rounded font-bold transition">지움</button>
                             </div>
                         </div>
                         <input type="date" id="newItemDesireDate" onchange="handleDesireDateChange()" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-pink-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-purple-300 font-medium mb-1">소유 목표 날짜 (자동 1년 후 세팅)</label>
+                        <label id="modalTargetDateLabel" class="block text-xs text-purple-300 font-medium mb-1">소유 목표 날짜 (자동 1년 후 세팅)</label>
                         <input type="date" id="newItemTargetDate" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-purple-500">
                     </div>
                 </div>
 
                 <div class="space-y-2 bg-gray-950/60 p-3 rounded-xl border border-gray-800">
-                    <label class="block text-xs font-semibold text-pink-400 uppercase tracking-wider">카테고리 선택</label>
+                    <label id="modalCatSectionLabel" class="block text-xs font-semibold text-pink-400 uppercase tracking-wider">카테고리 선택</label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[11px] text-gray-400 mb-1 font-medium">대분류</label>
+                            <label id="modalMainCatLabel" class="block text-[11px] text-gray-400 mb-1 font-medium">대분류</label>
                             <select id="mainCategorySelect" onchange="handleMainCategoryChange()" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs text-white font-bold focus:outline-none focus:border-pink-500">
                                 <option value="패션">패션</option>
                                 <option value="자동차">자동차</option>
@@ -504,21 +481,21 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] text-pink-300 mb-1 font-medium">소분류</label>
+                            <label id="modalSubCatLabel" class="block text-[11px] text-pink-300 mb-1 font-medium">소분류</label>
                             <select id="subCategorySelect" onchange="handleSubCategorySelectChange()" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs text-white font-bold focus:outline-none focus:border-pink-500">
                             </select>
                             <input type="text" id="customCategoryInput" oninput="handleCustomCategoryInput()" placeholder="카테고리 직접 입력" class="hidden w-full bg-gray-800 border border-pink-500 rounded-lg p-2 text-xs text-white focus:outline-none mt-1">
                         </div>
                     </div>
                     <div class="pt-1 flex items-center justify-between text-xs border-t border-gray-800/80 mt-2">
-                        <span class="text-gray-400">최종 카테고리:</span>
+                        <span id="modalFinalCatTitle" class="text-gray-400">최종 카테고리:</span>
                         <span id="selectedCategoryDisplay" class="font-bold text-pink-300">의류 (패션)</span>
                     </div>
                     <input type="hidden" id="newItemCategory" value="의류">
                 </div>
                 
                 <div>
-                    <label class="block text-xs text-pink-400 mb-1">가격</label>
+                    <label id="modalItemPriceLabel" class="block text-xs text-pink-400 mb-1">가격</label>
                     <div class="flex gap-2">
                         <select id="newItemCurrency" class="bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-bold focus:outline-none focus:border-pink-500">
                             <option value="KRW">KRW (₩)</option>
@@ -533,11 +510,11 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="block text-xs text-gray-400">제품 이미지 (URL 또는 파일 업로드)</label>
+                    <label id="modalImgUploadLabel" class="block text-xs text-gray-400">제품 이미지 (URL 또는 파일 업로드)</label>
                     <input type="url" id="newItemImgUrl" placeholder="이미지 주소(URL) https://..." class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-pink-500">
                     <div class="flex items-center gap-2">
                         <label class="cursor-pointer bg-gray-800 hover:bg-gray-700 text-pink-300 border border-gray-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1.5">
-                            <i class="fa-solid fa-upload"></i> 내 컴퓨터에서 이미지 업로드
+                            <i class="fa-solid fa-upload"></i> <span id="modalUploadBtnText">내 컴퓨터에서 이미지 업로드</span>
                             <input type="file" id="newItemImgFile" accept="image/*" onchange="handleFileUpload(event)" class="hidden">
                         </label>
                         <span id="fileUploadStatus" class="text-[11px] text-gray-500 truncate"></span>
@@ -545,7 +522,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">기본 아이콘 선택</label>
+                    <label id="modalIconSelectLabel" class="block text-xs text-gray-400 mb-1">기본 아이콘 선택</label>
                     <div class="grid grid-cols-5 gap-2 text-lg py-1">
                         <label class="cursor-pointer text-center"><input type="radio" name="icon" value="fa-clock" checked class="hidden peer"><span class="peer-checked:text-pink-400 text-gray-500 p-2 rounded hover:bg-gray-800 block"><i class="fa-solid fa-clock"></i></span></label>
                         <label class="cursor-pointer text-center"><input type="radio" name="icon" value="fa-bag-shopping" class="hidden peer"><span class="peer-checked:text-pink-400 text-gray-500 p-2 rounded hover:bg-gray-800 block"><i class="fa-solid fa-bag-shopping"></i></span></label>
@@ -561,9 +538,9 @@
                 </div>
 
                 <div class="pt-3 space-y-2">
-                    <button type="submit" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-2.5 rounded-lg transition">위시리스트 저장</button>
+                    <button type="submit" id="modalSaveWishlistBtn" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-2.5 rounded-lg transition">위시리스트 저장</button>
                     <button type="button" id="duplicateWishlistBtn" onclick="duplicateCurrentWishlist()" class="hidden w-full bg-gray-800 hover:bg-gray-700 text-purple-300 border border-purple-500/40 font-bold py-2 rounded-lg text-xs transition">
-                        👯‍♂️ 이 아이템 복제하기
+                        👯‍♂️ <span id="modalDupBtnText">이 아이템 복제하기</span>
                     </button>
                 </div>
             </form>
@@ -581,7 +558,7 @@
                 <input type="hidden" id="editStockId" value="">
 
                 <div class="relative">
-                    <label class="block text-xs text-gray-400 mb-1">종목명 (또는 기업명)</label>
+                    <label id="modalStockNameLabel" class="block text-xs text-gray-400 mb-1">종목명 (또는 기업명)</label>
                     <input type="text" id="newStockName" oninput="handleStockNameInput(event)" placeholder="예: 삼성전자, 카카오, Apple, TSMC" required autocomplete="off" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
                     
                     <div id="stockSearchResultsDropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-gray-900 border border-purple-500/50 rounded-xl shadow-2xl max-h-48 overflow-y-auto z-50 divide-y divide-gray-800/80">
@@ -589,20 +566,20 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-purple-400 mb-1">티커</label>
+                    <label id="modalStockTickerLabel" class="block text-xs text-purple-400 mb-1">티커</label>
                     <div class="flex gap-2">
                         <input type="text" id="newStockTicker" placeholder="예: 005930, GOOGL" class="uppercase w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500">
-                        <button type="button" onclick="fetchStockPriceFromApi()" class="bg-purple-700 hover:bg-purple-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition flex items-center gap-1">
+                        <button type="button" onclick="fetchStockPriceFromApi()" id="modalLookupBtnText" class="bg-purple-700 hover:bg-purple-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition flex items-center gap-1">
                             <i class="fa-solid fa-magnifying-glass"></i> 조회
                         </button>
                     </div>
                 </div>
 
                 <div id="currentHoldingsSummary" class="hidden bg-purple-950/40 p-2.5 rounded-lg border border-purple-800/50 text-xs space-y-1">
-                    <span class="text-purple-300 font-bold block">현재 전체 보유 상태</span>
+                    <span id="modalCurrentStateTitle" class="text-purple-300 font-bold block">현재 전체 보유 상태</span>
                     <div class="flex justify-between text-gray-300">
-                        <span>총 보유 수량: <strong id="summaryCurrentShares" class="text-white">0주</strong></span>
-                        <span>평균 단가: <strong id="summaryCurrentAvgPrice" class="text-white">$0</strong></span>
+                        <span><span id="modalHoldingsTotalSharesPrefix">총 보유 수량:</span> <strong id="summaryCurrentShares" class="text-white">0주</strong></span>
+                        <span><span id="modalHoldingsAvgPricePrefix">평균 단가:</span> <strong id="summaryCurrentAvgPrice" class="text-white">$0</strong></span>
                     </div>
                 </div>
 
@@ -628,22 +605,22 @@
                 </div>
 
                 <div id="purchaseHistoryContainer" class="hidden space-y-1.5 pt-1">
-                    <label class="block text-xs text-emerald-400 font-bold">등록된 추가 매수 내역 이력</label>
+                    <label id="modalHistoryTitle" class="block text-xs text-emerald-400 font-bold">등록된 추가 매수 내역 이력</label>
                     <div id="purchaseHistoryList" class="space-y-1.5 max-h-32 overflow-y-auto pr-1">
                     </div>
                 </div>
 
                 <div id="addPurchaseSection" class="hidden p-3 bg-gray-950/80 border border-purple-500/40 rounded-xl space-y-2.5">
                     <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-emerald-400"><i class="fa-solid fa-cart-plus"></i> 추가 매수 내역 등록</span>
+                        <span id="modalAddPurchaseSectionTitle" class="text-xs font-bold text-emerald-400"><i class="fa-solid fa-cart-plus"></i> 추가 매수 내역 등록</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                         <div>
-                            <label class="block text-[11px] text-gray-400 mb-1">추가 매수 수량(주)</label>
+                            <label id="modalAddSharesLabel" class="block text-[11px] text-gray-400 mb-1">추가 매수 수량(주)</label>
                             <input type="number" id="addStockShares" placeholder="예: 100" step="any" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-white focus:outline-none focus:border-emerald-500">
                         </div>
                         <div>
-                            <label class="block text-[11px] text-emerald-300 mb-1">추가 매수 단가</label>
+                            <label id="modalAddPriceLabel" class="block text-[11px] text-emerald-300 mb-1">추가 매수 단가</label>
                             <div class="flex gap-1">
                                 <select id="addStockCurrency" class="bg-gray-800 border border-gray-700 rounded-lg p-2 text-[11px] text-white font-bold focus:outline-none focus:border-emerald-500">
                                     <option value="USD">USD ($)</option>
@@ -657,13 +634,13 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" onclick="handleAddPurchaseEntryDirect()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg text-xs transition shadow-lg shadow-emerald-600/20">
+                    <button type="button" onclick="handleAddPurchaseEntryDirect()" id="modalAddPurchaseBtnText" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg text-xs transition shadow-lg shadow-emerald-600/20">
                         <i class="fa-solid fa-plus mr-1"></i> 추가 매수 내역 등록
                     </button>
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">현재 주가</label>
+                    <label id="modalCurrentPriceLabel" class="block text-xs text-gray-400 mb-1">현재 주가</label>
                     <div class="flex gap-2">
                         <select id="newStockCurrentCurrency" class="bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-bold focus:outline-none focus:border-purple-500">
                             <option value="USD">USD ($)</option>
@@ -679,7 +656,7 @@
 
                 <div class="pt-3 flex gap-2">
                     <button type="button" id="deleteStockBtn" onclick="openDeleteConfirmModal()" class="hidden w-1/3 bg-gray-800 hover:bg-red-900/60 text-red-400 border border-red-800/50 font-bold py-2.5 rounded-lg transition text-xs">
-                        <i class="fa-solid fa-trash mr-1"></i> 삭제
+                        <i class="fa-solid fa-trash mr-1"></i> <span id="modalDeleteBtnText">삭제</span>
                     </button>
                     <button type="submit" id="saveStockBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition">포트폴리오에 저장</button>
                 </div>
@@ -693,16 +670,16 @@
             <div class="w-12 h-12 bg-red-950/80 border border-red-800/50 text-red-400 rounded-full flex items-center justify-center mx-auto text-xl">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h4 class="font-extrabold text-white text-base">보유 주식을 삭제하시겠습니까?</h4>
-            <p class="text-xs text-gray-400">삭제 후에는 포트폴리오에서 목록이 완전히 사라집니다.</p>
+            <h4 id="deleteConfirmTitle" class="font-extrabold text-white text-base">보유 주식을 삭제하시겠습니까?</h4>
+            <p id="deleteConfirmDesc" class="text-xs text-gray-400">삭제 후에는 포트폴리오에서 목록이 완전히 사라집니다.</p>
             <div class="flex gap-2 pt-2">
-                <button type="button" onclick="closeModal('stockDeleteConfirmModal')" class="w-1/2 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-2 rounded-lg text-xs transition">아니오</button>
-                <button type="button" onclick="confirmDeleteStock()" class="w-1/2 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded-lg text-xs transition">예</button>
+                <button type="button" onclick="closeModal('stockDeleteConfirmModal')" id="btnConfirmNo" class="w-1/2 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-2 rounded-lg text-xs transition">아니오</button>
+                <button type="button" onclick="confirmDeleteStock()" id="btnConfirmYes" class="w-1/2 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded-lg text-xs transition">예</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 3 & 4: 상세 뷰 모달 -->
+    <!-- MODAL 3: Wishlist Detail View -->
     <div id="detailViewModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-card bg-gray-900/95 border-pink-500/40 rounded-2xl max-w-lg w-full p-6 space-y-4 relative shadow-2xl">
             <button onclick="closeModal('detailViewModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-base"></i></button>
@@ -720,13 +697,14 @@
                 <div id="detailImageWrapper" class="w-full h-64 bg-gray-950/80 border border-gray-800 rounded-xl p-3 flex items-center justify-center my-2 overflow-hidden">
                 </div>
                 <div class="bg-gray-950/60 p-4 rounded-xl border border-gray-800/80">
-                    <span class="text-xs text-gray-400 block mb-1">가격</span>
+                    <span id="detailPriceLabel" class="text-xs text-gray-400 block mb-1">가격</span>
                     <div id="detailPrice" class="text-2xl font-black text-pink-400 tracking-tight">₩0 ($0)</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL 4: Stock Detail View -->
     <div id="stockDetailViewModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-card bg-gray-900/95 border-purple-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 relative shadow-2xl">
             <button onclick="closeModal('stockDetailViewModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-800 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-base"></i></button>
@@ -738,22 +716,22 @@
                 <div class="mt-5 pt-4 border-t border-gray-800 flex justify-between items-start">
                     <div class="space-y-3 text-left">
                         <div>
-                            <span class="text-[11px] text-gray-400 block">매수가</span>
+                            <span id="stockDetailBuyPriceLabel" class="text-[11px] text-gray-400 block">매수가</span>
                             <span id="stockDetailBuyPrice" class="font-bold text-gray-200 text-sm">$0.00</span>
                         </div>
                         <div>
-                            <span class="text-[11px] text-gray-400 block">현재 주가</span>
+                            <span id="stockDetailCurrentPriceLabel" class="text-[11px] text-gray-400 block">현재 주가</span>
                             <span id="stockDetailCurrentPrice" class="font-extrabold text-white text-base leading-none block mt-0.5">$0.00</span>
                         </div>
                     </div>
 
                     <div class="text-right space-y-3">
                         <div>
-                            <span class="text-[11px] text-gray-400 block">손익률</span>
+                            <span id="stockDetailProfitReturnLabel" class="text-[11px] text-gray-400 block">손익률</span>
                             <div id="stockDetailProfitReturn" class="text-xl font-black tracking-tight text-emerald-400 leading-tight">+0.0%</div>
                         </div>
                         <div>
-                            <span class="text-[11px] text-purple-300 block font-medium">총 평가금액</span>
+                            <span id="stockDetailTotalEvaluatedPriceLabel" class="text-[11px] text-purple-300 block font-medium">총 평가금액</span>
                             <div id="stockDetailTotalEvaluatedPrice" class="text-base font-extrabold text-purple-200 leading-none block mt-0.5">₩0 ($0.00)</div>
                         </div>
                     </div>
@@ -765,7 +743,7 @@
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
         // ==========================================
-        // 🌐 다국어 (i18n) 번역 사전 및 상태 관리
+        // 🌐 완전한 다국어 (i18n) 번역 사전 및 옵션
         // ==========================================
         const translations = {
             ko: {
@@ -804,7 +782,65 @@
                 roadmapMain: "주가 상승별 물욕 해금 로드맵",
                 roadmapSub: "선택한 주식이 급등할 때 순차적으로 손에 쥘 수 있는 아이템 리스트",
                 bannerText: "🔥 물욕 모드 발동 중! 연타하세요! 🔥",
-                bannerSub: "(3초간 안 누르면 자동 종료)"
+                bannerSub: "(3초간 안 누르면 자동 종료)",
+                allCategory: "전체 카테고리",
+                selectAll: "전체 선택",
+                deselectAll: "선택 해제",
+                needStockSelect: "주식 선택 필요",
+                needItemSelect: "아이템 선택 필요",
+                goalReached: "달성 완료!",
+                badgeUnlocked: "🎉 득템 가능! UNLOCKED",
+                badgeHalfway: "🔥 반 이상 왔음!",
+                badgeWaiting: "🏃‍♂️ 대기 중",
+                badgeRoadmapUnlocked: "해금 완료",
+                badgeRoadmapNeedRise: "상승 필요",
+                roadmapAvailableNow: "지금 바로 구매 가능!",
+                roadmapRisePrefix: "포트폴리오",
+                roadmapRiseSuffix: "상승 시 해금",
+                stockHoldingsPrefix: "보유",
+                stockCurrentPrefix: "현재",
+                stockEvalSuffix: "주 평가",
+                stockAllBtn: "전체",
+                cardPriceLabel: "가격",
+                emptyWishlist: "선택한 카테고리에 아이템이 없습니다.",
+                emptySelectedWishlist: "선택된 아이템이 없습니다.",
+                ddayDesirePrefix: "갖고 싶어진 지 D+",
+                ddayTargetPrefix: "소유 목표까지 D-",
+                ddayExpired: "소유 목표일 지남",
+                yearText: "년",
+                dayText: "일",
+                modalAddStockTitle: "새 주식 종목 추가",
+                modalEditStockTitle: "보유 주식 수정",
+                modalSaveStockBtn: "포트폴리오에 저장",
+                modalAddWishlistTitle: "새로운 물욕 아이템 추가",
+                modalEditWishlistTitle: "물욕 아이템 수정",
+                modalSaveWishlistBtn: "위시리스트 저장",
+                modalDupWishlistBtn: "이 아이템 복제하기",
+                modalDeleteBtn: "삭제",
+                modalLookupBtn: "조회",
+                modalAddPurchaseBtn: "추가 매수 내역 등록",
+                modalTodayBtn: "오늘",
+                modalClearBtn: "지움",
+                modalUploadBtn: "내 컴퓨터에서 이미지 업로드",
+                confirmDeleteStockTitle: "보유 주식을 삭제하시겠습니까?",
+                confirmDeleteStockDesc: "삭제 후에는 포트폴리오에서 목록이 완전히 사라집니다.",
+                confirmYes: "예",
+                confirmNo: "아니오",
+                stockSortOptions: {
+                    valueDesc: "평가액 높은순",
+                    valueAsc: "평가액 낮은순",
+                    returnDesc: "수익률 높은순 🔥",
+                    returnAsc: "수익률 낮은순 📉",
+                    name: "이름순",
+                    priceDesc: "주가 높은순",
+                    sharesDesc: "보유 수량순"
+                },
+                wishlistSortOptions: {
+                    priceDesc: "가격 높은순",
+                    priceAsc: "가격 낮은순",
+                    name: "이름순",
+                    category: "카테고리순"
+                }
             },
             en: {
                 appSubtitle: "Fulfill desires with stock portfolio gains",
@@ -842,7 +878,65 @@
                 roadmapMain: "Desire Unlock Roadmap",
                 roadmapSub: "Items you can unlock sequentially as your stocks surge",
                 bannerText: "🔥 Desire Mode Activated! Tap Rapidly! 🔥",
-                bannerSub: "(Ends automatically if not tapped for 3s)"
+                bannerSub: "(Ends automatically if not tapped for 3s)",
+                allCategory: "All Categories",
+                selectAll: "Select All",
+                deselectAll: "Deselect All",
+                needStockSelect: "Select Stock",
+                needItemSelect: "Select Item",
+                goalReached: "Goal Reached!",
+                badgeUnlocked: "🎉 UNLOCKED",
+                badgeHalfway: "🔥 Halfway There!",
+                badgeWaiting: "🏃‍♂️ In Progress",
+                badgeRoadmapUnlocked: "Unlocked",
+                badgeRoadmapNeedRise: "Gain Needed",
+                roadmapAvailableNow: "Available to buy right now!",
+                roadmapRisePrefix: "Portfolio",
+                roadmapRiseSuffix: "growth needed",
+                stockHoldingsPrefix: "shares",
+                stockCurrentPrefix: "Current",
+                stockEvalSuffix: "shares eval",
+                stockAllBtn: "All",
+                cardPriceLabel: "Price",
+                emptyWishlist: "No items in this category.",
+                emptySelectedWishlist: "No items selected.",
+                ddayDesirePrefix: "Desired for D+",
+                ddayTargetPrefix: "Target in D-",
+                ddayExpired: "Target Date Passed",
+                yearText: "y ",
+                dayText: "d",
+                modalAddStockTitle: "Add New Stock",
+                modalEditStockTitle: "Edit Stock Holding",
+                modalSaveStockBtn: "Save to Portfolio",
+                modalAddWishlistTitle: "Add New Wish Item",
+                modalEditWishlistTitle: "Edit Wish Item",
+                modalSaveWishlistBtn: "Save Wishlist Item",
+                modalDupWishlistBtn: "Duplicate Item",
+                modalDeleteBtn: "Delete",
+                modalLookupBtn: "Lookup",
+                modalAddPurchaseBtn: "Add Buy Entry",
+                modalTodayBtn: "Today",
+                modalClearBtn: "Clear",
+                modalUploadBtn: "Upload Image from PC",
+                confirmDeleteStockTitle: "Delete this stock holding?",
+                confirmDeleteStockDesc: "Once deleted, this stock will be permanently removed.",
+                confirmYes: "Yes",
+                confirmNo: "No",
+                stockSortOptions: {
+                    valueDesc: "Highest Value",
+                    valueAsc: "Lowest Value",
+                    returnDesc: "Highest Return 🔥",
+                    returnAsc: "Lowest Return 📉",
+                    name: "By Name",
+                    priceDesc: "Highest Price",
+                    sharesDesc: "Most Shares"
+                },
+                wishlistSortOptions: {
+                    priceDesc: "Highest Price",
+                    priceAsc: "Lowest Price",
+                    name: "By Name",
+                    category: "By Category"
+                }
             },
             fr: {
                 appSubtitle: "Réalisez vos désirs grâce aux gains boursiers",
@@ -880,7 +974,65 @@
                 roadmapMain: "Feuille de route de déverrouillage",
                 roadmapSub: "Objets que vous pouvez acquérir à mesure que vos actions grimpent",
                 bannerText: "🔥 Mode Désir Activé! Touchez rapidement! 🔥",
-                bannerSub: "(Arrêt automatique après 3s d'inactivité)"
+                bannerSub: "(Arrêt automatique après 3s d'inactivité)",
+                allCategory: "Toutes les catégories",
+                selectAll: "Tout sélectionner",
+                deselectAll: "Tout désélectionner",
+                needStockSelect: "Action requise",
+                needItemSelect: "Objet requis",
+                goalReached: "Objectif atteint!",
+                badgeUnlocked: "🎉 DÉBLOQUÉ",
+                badgeHalfway: "🔥 Plus de 50%!",
+                badgeWaiting: "🏃‍♂️ En attente",
+                badgeRoadmapUnlocked: "Débloqué",
+                badgeRoadmapNeedRise: "Hausse requise",
+                roadmapAvailableNow: "Disponible à l'achat immédiatement!",
+                roadmapRisePrefix: "Portefeuille",
+                roadmapRiseSuffix: "requis pour débloquer",
+                stockHoldingsPrefix: "actions",
+                stockCurrentPrefix: "Actuel",
+                stockEvalSuffix: "évalué",
+                stockAllBtn: "Tout",
+                cardPriceLabel: "Prix",
+                emptyWishlist: "Aucun article dans cette catégorie.",
+                emptySelectedWishlist: "Aucun article sélectionné.",
+                ddayDesirePrefix: "Désiré depuis J+",
+                ddayTargetPrefix: "Objectif dans J-",
+                ddayExpired: "Date objectif dépassée",
+                yearText: "a ",
+                dayText: "j",
+                modalAddStockTitle: "Ajouter une action",
+                modalEditStockTitle: "Modifier l'action",
+                modalSaveStockBtn: "Enregistrer au portefeuille",
+                modalAddWishlistTitle: "Ajouter un souhait",
+                modalEditWishlistTitle: "Modifier le souhait",
+                modalSaveWishlistBtn: "Enregistrer le souhait",
+                modalDupWishlistBtn: "Dupliquer cet objet",
+                modalDeleteBtn: "Supprimer",
+                modalLookupBtn: "Chercher",
+                modalAddPurchaseBtn: "Ajouter un achat",
+                modalTodayBtn: "Aujourd'hui",
+                modalClearBtn: "Effacer",
+                modalUploadBtn: "Téléverser depuis l'ordinateur",
+                confirmDeleteStockTitle: "Supprimer cette action ?",
+                confirmDeleteStockDesc: "Une fois supprimée, elle disparaîtra de votre portefeuille.",
+                confirmYes: "Oui",
+                confirmNo: "Non",
+                stockSortOptions: {
+                    valueDesc: "Valeur la plus élevée",
+                    valueAsc: "Valeur la plus basse",
+                    returnDesc: "Meilleur rendement 🔥",
+                    returnAsc: "Pire rendement 📉",
+                    name: "Par nom",
+                    priceDesc: "Prix le plus élevé",
+                    sharesDesc: "Quantité d'actions"
+                },
+                wishlistSortOptions: {
+                    priceDesc: "Prix le plus élevé",
+                    priceAsc: "Prix le plus bas",
+                    name: "Par nom",
+                    category: "Par catégorie"
+                }
             },
             es: {
                 appSubtitle: "Cumple tus deseos con los beneficios de tus acciones",
@@ -918,7 +1070,65 @@
                 roadmapMain: "Ruta de desbloqueo de deseos",
                 roadmapSub: "Artículos que podrás desbloquear cuando tus acciones suban",
                 bannerText: "🔥 ¡Modo Deseo Activado! ¡Toca sin parar! 🔥",
-                bannerSub: "(Se desactiva tras 3s sin pulsar)"
+                bannerSub: "(Se desactiva tras 3s sin pulsar)",
+                allCategory: "Todas las categorías",
+                selectAll: "Seleccionar todo",
+                deselectAll: "Deseleccionar todo",
+                needStockSelect: "Selecciona acción",
+                needItemSelect: "Selecciona deseo",
+                goalReached: "¡Meta cumplida!",
+                badgeUnlocked: "🎉 DESBLOQUEADO",
+                badgeHalfway: "🔥 ¡Más del 50%!",
+                badgeWaiting: "🏃‍♂️ En proceso",
+                badgeRoadmapUnlocked: "Desbloqueado",
+                badgeRoadmapNeedRise: "Subida requerida",
+                roadmapAvailableNow: "¡Disponible para comprar ya!",
+                roadmapRisePrefix: "Cartera",
+                roadmapRiseSuffix: "necesaria para desbloquear",
+                stockHoldingsPrefix: "acciones",
+                stockCurrentPrefix: "Actual",
+                stockEvalSuffix: "evaluadas",
+                stockAllBtn: "Todo",
+                cardPriceLabel: "Precio",
+                emptyWishlist: "No hay artículos en esta categoría.",
+                emptySelectedWishlist: "No hay artículos seleccionados.",
+                ddayDesirePrefix: "Deseado desde D+",
+                ddayTargetPrefix: "Meta en D-",
+                ddayExpired: "Meta vencida",
+                yearText: "a ",
+                dayText: "d",
+                modalAddStockTitle: "Añadir nueva acción",
+                modalEditStockTitle: "Editar acción",
+                modalSaveStockBtn: "Guardar en cartera",
+                modalAddWishlistTitle: "Añadir nuevo deseo",
+                modalEditWishlistTitle: "Editar deseo",
+                modalSaveWishlistBtn: "Guardar deseo",
+                modalDupWishlistBtn: "Duplicar artículo",
+                modalDeleteBtn: "Eliminar",
+                modalLookupBtn: "Buscar",
+                modalAddPurchaseBtn: "Registrar compra",
+                modalTodayBtn: "Hoy",
+                modalClearBtn: "Borrar",
+                modalUploadBtn: "Subir imagen del PC",
+                confirmDeleteStockTitle: "¿Eliminar esta acción de la cartera?",
+                confirmDeleteStockDesc: "Una vez eliminada, desaparecerá definitivamente.",
+                confirmYes: "Sí",
+                confirmNo: "No",
+                stockSortOptions: {
+                    valueDesc: "Mayor valor",
+                    valueAsc: "Menor valor",
+                    returnDesc: "Mayor rentabilidad 🔥",
+                    returnAsc: "Menor rentabilidad 📉",
+                    name: "Por nombre",
+                    priceDesc: "Precio más alto",
+                    sharesDesc: "Cantidad de acciones"
+                },
+                wishlistSortOptions: {
+                    priceDesc: "Precio más alto",
+                    priceAsc: "Precio más bajo",
+                    name: "Por nombre",
+                    category: "Por categoría"
+                }
             }
         };
 
@@ -972,10 +1182,62 @@
             document.getElementById('roadmapSubHeader').textContent = t.roadmapSub;
             document.getElementById('bannerText').textContent = t.bannerText;
             document.getElementById('bannerSubText').textContent = t.bannerSub;
+
+            // 모달 및 삭제 확인 다이얼로그 텍스트
+            document.getElementById('btnConfirmYes').textContent = t.confirmYes;
+            document.getElementById('btnConfirmNo').textContent = t.confirmNo;
+            document.getElementById('deleteConfirmTitle').textContent = t.confirmDeleteStockTitle;
+            document.getElementById('deleteConfirmDesc').textContent = t.confirmDeleteStockDesc;
+            document.getElementById('modalDeleteBtnText').textContent = t.modalDeleteBtn;
+            document.getElementById('modalLookupBtnText').innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> ${t.modalLookupBtn}`;
+            document.getElementById('modalAddPurchaseBtnText').innerHTML = `<i class="fa-solid fa-plus mr-1"></i> ${t.modalAddPurchaseBtn}`;
+            document.getElementById('btnDateToday').textContent = t.modalTodayBtn;
+            document.getElementById('btnDateClear').textContent = t.modalClearBtn;
+            document.getElementById('modalUploadBtnText').textContent = t.modalUploadBtn;
+            document.getElementById('modalDupBtnText').textContent = t.modalDupWishlistBtn;
+            document.getElementById('detailPriceLabel').textContent = t.cardPriceLabel;
+
+            // 드롭다운 정렬 옵션 다국어 렌더링
+            populateSortDropdowns();
+            updateCategoryFilterDropdown();
+        }
+
+        function populateSortDropdowns() {
+            const t = translations[currentLang] || translations.ko;
+
+            // 1. 상단 주식 정렬
+            const stockSortSelect = document.getElementById('stockSortSelect');
+            const currentStockSort = stockSortSelect.value || 'valueDesc';
+            stockSortSelect.innerHTML = Object.entries(t.stockSortOptions).map(([val, text]) => 
+                `<option value="${val}" ${currentStockSort === val ? 'selected' : ''}>${text}</option>`
+            ).join('');
+
+            // 2. 포트폴리오 주식 정렬
+            const portfolioStockSortSelect = document.getElementById('portfolioStockSortSelect');
+            const currentPortSort = portfolioStockSortSelect.value || 'valueDesc';
+            portfolioStockSortSelect.innerHTML = Object.entries(t.stockSortOptions).map(([val, text]) => 
+                `<option value="${val}" ${currentPortSort === val ? 'selected' : ''}>${text}</option>`
+            ).join('');
+
+            // 3. 상단 위시리스트 정렬
+            const wishlistSortSelect = document.getElementById('wishlistSortSelect');
+            const currentWishSort = wishlistSortSelect.value || 'priceDesc';
+            wishlistSortSelect.innerHTML = Object.entries(t.wishlistSortOptions).map(([val, text]) => 
+                `<option value="${val}" ${currentWishSort === val ? 'selected' : ''}>${text}</option>`
+            ).join('');
+
+            // 4. 하단 위시리스트 정렬
+            const bottomWishlistSortSelect = document.getElementById('bottomWishlistSortSelect');
+            const currentBottomWishSort = bottomWishlistSortSelect.value || 'priceDesc';
+            const filteredWishOptions = { ...t.wishlistSortOptions };
+            delete filteredWishOptions.category;
+            bottomWishlistSortSelect.innerHTML = Object.entries(filteredWishOptions).map(([val, text]) => 
+                `<option value="${val}" ${currentBottomWishSort === val ? 'selected' : ''}>${text}</option>`
+            ).join('');
         }
 
         // ==========================================
-        // 💾 기본 데이터 및 영구 저장소 (LocalStorage)
+        // 💾 기본 데이터 및 영구 저장소
         // ==========================================
         const initialDefaultStocks = [
             { id: 's1', name: '구글 (Alphabet)', ticker: 'GOOGL', initialShares: 20, initialBuyPrice: 150.00, shares: 20, selectedShares: 20, buyPrice: 150.00, buyCurrency: 'USD', currentCurrency: 'USD', priceUsd: 175.50, purchases: [] },
@@ -1007,17 +1269,17 @@
         }
 
         function resetToSampleData() {
-            if (confirm("등록된 데이터를 초기 기본값으로 리셋하시겠습니까?")) {
+            if (confirm(currentLang === 'en' ? "Reset all data to defaults?" : "등록된 데이터를 초기 기본값으로 리셋하시겠습니까?")) {
                 stocks = JSON.parse(JSON.stringify(initialDefaultStocks));
                 wishlists = JSON.parse(JSON.stringify(initialDefaultWishlists));
                 saveStorage();
                 renderAll();
-                alert("기본 데이터로 초기화되었습니다.");
+                alert(currentLang === 'en' ? "Reset complete." : "기본 데이터로 초기화되었습니다.");
             }
         }
 
         // ==========================================
-        // 📈 시스템 환경 변수 & 환율 테이블
+        // 📈 환율 및 앱 상태 관리
         // ==========================================
         let ratesTable = { USD: 1, KRW: 1380, EUR: 0.92, JPY: 155, GBP: 0.78, CHF: 0.89 };
         let baseCurrency = 'USD';
@@ -1161,7 +1423,7 @@
         }
 
         // ==========================================
-        // 🔥 물욕 모드 컨트롤러 & 애니메이션
+        // 🔥 물욕 모드 컨트롤러
         // ==========================================
         function handleTitleDesirePressStart() {
             desireTitlePressTimer = setTimeout(() => {
@@ -1226,13 +1488,12 @@
         }
 
         // ==========================================
-        // 🚀 초기화 및 시세 조회 로직
+        // 🚀 초기화 및 안전 통신
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             applyLanguage();
             setupEventListeners();
             fetchAutoRates();
-            updateCategoryFilterDropdown();
             setupDateInputsMinMax();
             handleMainCategoryChange();
             refreshAllStockPrices(false);
@@ -1332,7 +1593,8 @@
             renderAll();
 
             if (showUserNotice) {
-                alert(currentLang === 'en' ? 'Stock quotes updated!' : '모든 보유 종목의 실시간 시세가 업데이트되었습니다!');
+                const t = translations[currentLang] || translations.ko;
+                alert(t.refreshPriceBtn + " OK!");
             }
         }
 
@@ -1671,11 +1933,12 @@
         }
 
         function updateCategoryFilterDropdown() {
+            const t = translations[currentLang] || translations.ko;
             const filterSelect = document.getElementById('wishlistCategoryFilter');
             const bottomFilterSelect = document.getElementById('bottomWishlistCategoryFilter');
             
-            let htmlTop = `<option value="ALL" ${selectedCategoryFilter === 'ALL' ? 'selected' : ''}>전체 카테고리</option>`;
-            let htmlBottom = `<option value="ALL" ${bottomCategoryFilter === 'ALL' ? 'selected' : ''}>전체 카테고리</option>`;
+            let htmlTop = `<option value="ALL" ${selectedCategoryFilter === 'ALL' ? 'selected' : ''}>${t.allCategory}</option>`;
+            let htmlBottom = `<option value="ALL" ${bottomCategoryFilter === 'ALL' ? 'selected' : ''}>${t.allCategory}</option>`;
 
             Object.keys(categoryMap).forEach(group => {
                 htmlTop += `<option value="${group}" ${selectedCategoryFilter === group ? 'selected' : ''}>${group}</option>`;
@@ -1740,11 +2003,12 @@
         }
 
         function openStockDetailViewModal(id) {
+            const t = translations[currentLang] || translations.ko;
             const stock = stocks.find(s => s.id === id);
             if (!stock) return;
 
             document.getElementById('stockDetailTitle').textContent = `${stock.name} (${stock.ticker})`;
-            document.getElementById('stockDetailShares').textContent = `${stock.shares}주 보유 (조회 선택: ${stock.selectedShares !== undefined ? stock.selectedShares : stock.shares}주)`;
+            document.getElementById('stockDetailShares').textContent = `${stock.shares} ${t.stockHoldingsPrefix} (${t.selectedStockPrefix}: ${stock.selectedShares !== undefined ? stock.selectedShares : stock.shares} ${t.stockHoldingsPrefix})`;
 
             const buyPriceUsd = convertToUsd(stock.buyPrice || stock.priceUsd, stock.buyCurrency || 'USD');
             const currentPriceUsd = stock.priceUsd;
@@ -1771,6 +2035,7 @@
         }
 
         function calculateDDayText(targetDateStr, isPastType = false) {
+            const t = translations[currentLang] || translations.ko;
             if (!targetDateStr) return null;
             const today = new Date();
             today.setHours(0, 0, 0, 0);
@@ -1786,17 +2051,17 @@
                 if (elapsedDays > 365) {
                     const years = Math.floor(elapsedDays / 365);
                     const remainingDays = elapsedDays % 365;
-                    return `D+${years}년 ${remainingDays}일`;
+                    return `${t.ddayDesirePrefix}${years}${t.yearText}${remainingDays}${t.dayText}`;
                 }
-                return `D+${elapsedDays}일`;
+                return `${t.ddayDesirePrefix}${elapsedDays}${t.dayText}`;
             } else {
-                if (diffDays < 0) return '목표일 지남';
+                if (diffDays < 0) return t.ddayExpired;
                 if (diffDays > 365) {
                     const years = Math.floor(diffDays / 365);
                     const remainingDays = diffDays % 365;
-                    return `D-${years}년 ${remainingDays}일`;
+                    return `${t.ddayTargetPrefix}${years}${t.yearText}${remainingDays}${t.dayText}`;
                 }
-                return `D-${diffDays}일`;
+                return `${t.ddayTargetPrefix}${diffDays}${t.dayText}`;
             }
         }
 
@@ -1918,6 +2183,7 @@
         }
 
         function renderStockCheckboxList() {
+            const t = translations[currentLang] || translations.ko;
             const container = document.getElementById('stockCheckboxContainer');
             const sorted = sortStocksByMode(topStockSort);
 
@@ -1936,11 +2202,11 @@
                 `;
             }).join('');
 
-            document.getElementById('selectedStockDetail').textContent = `${selectedStockIds.length}${currentLang === 'en' ? ' items' : '개'}`;
+            document.getElementById('selectedStockDetail').textContent = `${selectedStockIds.length}${t.itemUnit}`;
             
             const toggleBtn = document.getElementById('stockToggleAllBtn');
             const isAllSelected = stocks.length > 0 && selectedStockIds.length === stocks.length;
-            toggleBtn.textContent = isAllSelected ? (currentLang === 'en' ? 'Deselect All' : '선택 해제') : (currentLang === 'en' ? 'Select All' : '전체 선택');
+            toggleBtn.textContent = isAllSelected ? t.deselectAll : t.selectAll;
         }
 
         function handleStockCardClick(event, id) {
@@ -2013,11 +2279,12 @@
         }
 
         function renderWishlistCheckboxList() {
+            const t = translations[currentLang] || translations.ko;
             const container = document.getElementById('wishlistCheckboxContainer');
             const list = getFilteredAndSortedWishlist();
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="text-xs text-gray-500 p-2">아이템이 없습니다.</div>`;
+                container.innerHTML = `<div class="text-xs text-gray-500 p-2">${t.emptyWishlist}</div>`;
             } else {
                 container.innerHTML = list.map(w => {
                     const checked = selectedWishlistIds.includes(w.id) ? 'checked' : '';
@@ -2040,7 +2307,7 @@
 
             const toggleBtn = document.getElementById('wishlistToggleAllBtn');
             const isAllSelected = wishlists.length > 0 && selectedWishlistIds.length === wishlists.length;
-            toggleBtn.textContent = isAllSelected ? (currentLang === 'en' ? 'Deselect All' : '선택 해제') : (currentLang === 'en' ? 'Select All' : '전체 선택');
+            toggleBtn.textContent = isAllSelected ? t.deselectAll : t.selectAll;
 
             renderSelectedWishlistCards();
         }
@@ -2080,13 +2347,14 @@
         }
 
         function renderSelectedWishlistCards() {
+            const t = translations[currentLang] || translations.ko;
             const displayContainer = document.getElementById('selectedWishlistItemsDisplay');
             const selectedItems = wishlists.filter(w => selectedWishlistIds.includes(w.id));
 
             document.getElementById('selectedWishlistCount').textContent = selectedItems.length;
 
             if (selectedItems.length === 0) {
-                displayContainer.innerHTML = `<div class="text-xs text-gray-500 bg-gray-950/40 p-2.5 rounded-lg border border-gray-800/80 text-center">선택된 아이템이 없습니다.</div>`;
+                displayContainer.innerHTML = `<div class="text-xs text-gray-500 bg-gray-950/40 p-2.5 rounded-lg border border-gray-800/80 text-center">${t.emptySelectedWishlist}</div>`;
                 return;
             }
 
@@ -2116,6 +2384,7 @@
         }
 
         function renderHeroSectionOnly() {
+            const t = translations[currentLang] || translations.ko;
             const selectedStocks = stocks.filter(s => selectedStockIds.includes(s.id));
             const selectedItems = wishlists.filter(w => selectedWishlistIds.includes(w.id));
 
@@ -2141,13 +2410,13 @@
 
             const badge = document.getElementById('heroStatusBadge');
             if (progressPct >= 100 && totalItemUsd > 0) {
-                badge.textContent = '🎉 UNLOCKED';
+                badge.textContent = t.badgeUnlocked;
                 badge.className = 'text-xs px-2 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold';
             } else if (progressPct >= 50) {
-                badge.textContent = '🔥 50%+';
+                badge.textContent = t.badgeHalfway;
                 badge.className = 'text-xs px-2 py-1 rounded bg-amber-950 text-amber-300 border border-amber-800';
             } else {
-                badge.textContent = '🏃‍♂️ 대기 중';
+                badge.textContent = t.badgeWaiting;
                 badge.className = 'text-xs px-2 py-1 rounded bg-red-950 text-red-300 border border-red-800';
             }
 
@@ -2155,15 +2424,15 @@
             const riseNeededElem = document.getElementById('heroPriceRiseNeeded');
 
             if (baseHoldingsUsd === 0) {
-                targetStockPriceElem.textContent = '주식 선택 필요';
+                targetStockPriceElem.textContent = t.needStockSelect;
                 riseNeededElem.textContent = 'N/A';
             } else if (totalItemUsd === 0) {
-                targetStockPriceElem.textContent = '아이템 선택 필요';
+                targetStockPriceElem.textContent = t.needItemSelect;
                 riseNeededElem.textContent = '0%';
             } else {
                 const requiredRisePct = ((totalItemUsd - baseHoldingsUsd) / baseHoldingsUsd) * 100;
                 if (requiredRisePct <= 0) {
-                    targetStockPriceElem.textContent = '달성 완료!';
+                    targetStockPriceElem.textContent = t.goalReached;
                     riseNeededElem.textContent = '0%';
                 } else {
                     targetStockPriceElem.textContent = '+' + requiredRisePct.toFixed(1) + '%';
@@ -2175,11 +2444,12 @@
         }
 
         function renderWishlistCards() {
+            const t = translations[currentLang] || translations.ko;
             const container = document.getElementById('wishlistContainer');
             const list = getBottomSortedWishlist();
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 py-8 bg-gray-900/40 rounded-xl border border-gray-800">아이템이 없습니다.</div>`;
+                container.innerHTML = `<div class="col-span-full text-center text-xs text-gray-500 py-8 bg-gray-900/40 rounded-xl border border-gray-800">${t.emptyWishlist}</div>`;
                 return;
             }
 
@@ -2216,7 +2486,7 @@
                             </div>
 
                             <div class="pt-2 border-t border-gray-800/80">
-                                <span class="text-[10px] text-gray-400 block">가격</span>
+                                <span class="text-[10px] text-gray-400 block">${t.cardPriceLabel}</span>
                                 <div class="font-extrabold text-white text-xs sm:text-sm tracking-tight">${formatDualCurrency(itemUsd)}</div>
                             </div>
                         </div>
@@ -2226,6 +2496,7 @@
         }
 
         function renderStockList() {
+            const t = translations[currentLang] || translations.ko;
             const container = document.getElementById('stockListContainer');
             const sorted = sortStocksByMode(portfolioStockSort);
 
@@ -2253,7 +2524,7 @@
                             </div>
                             <div class="min-w-0">
                                 <h4 class="font-bold text-white text-sm truncate">${s.name} (${s.ticker})</h4>
-                                <p class="text-xs text-gray-400">${s.shares}주 보유 · 현재 ${priceFormatted}</p>
+                                <p class="text-xs text-gray-400">${s.shares} ${t.stockHoldingsPrefix} · ${t.stockCurrentPrefix} ${priceFormatted}</p>
                             </div>
                         </div>
 
@@ -2262,12 +2533,12 @@
                                 <button type="button" onclick="changeStockSelectedShares(event, '${s.id}', -1)" class="w-6 h-6 rounded bg-gray-800 hover:bg-purple-900 text-purple-300 font-bold flex items-center justify-center text-xs transition border border-gray-700">-</button>
                                 <input type="number" value="${evalShares}" onchange="handleStockSharesInput(event, '${s.id}')" class="w-10 bg-gray-950 border border-gray-800 rounded text-center text-xs text-purple-300 font-bold focus:outline-none focus:border-purple-500 py-0.5">
                                 <button type="button" onclick="changeStockSelectedShares(event, '${s.id}', 1)" class="w-6 h-6 rounded bg-gray-800 hover:bg-purple-900 text-purple-300 font-bold flex items-center justify-center text-xs transition border border-gray-700">+</button>
-                                <button type="button" onclick="resetStockSelectedShares(event, '${s.id}')" class="text-[10px] bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-800/80 px-2 py-1 rounded font-semibold transition ml-1 whitespace-nowrap">전체</button>
+                                <button type="button" onclick="resetStockSelectedShares(event, '${s.id}')" class="text-[10px] bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-800/80 px-2 py-1 rounded font-semibold transition ml-1 whitespace-nowrap">${t.stockAllBtn}</button>
                             </div>
 
                             <div class="text-right pointer-events-none min-w-[90px]">
                                 <div class="font-extrabold text-white text-sm">${formatDualCurrency(totalUsd)}</div>
-                                <span class="text-[10px] text-purple-400 font-bold">(${evalShares}주 평가)</span>
+                                <span class="text-[10px] text-purple-400 font-bold">(${evalShares} ${t.stockEvalSuffix})</span>
                             </div>
                         </div>
                     </div>
@@ -2276,6 +2547,7 @@
         }
 
         function renderUnlockRoadmap() {
+            const t = translations[currentLang] || translations.ko;
             const container = document.getElementById('unlockRoadmapContainer');
             const currentTotalPortfolioUsd = stocks.reduce((sum, s) => sum + (s.shares * s.priceUsd), 0);
 
@@ -2292,7 +2564,7 @@
                         <div class="flex justify-between items-start">
                             <span class="text-2xl">${isUnlockedNow ? '🔓' : '🔒'}</span>
                             <span class="text-[10px] px-2 py-0.5 rounded ${isUnlockedNow ? 'bg-emerald-900 text-emerald-300' : 'bg-gray-800 text-gray-400'} font-bold">
-                                ${isUnlockedNow ? '해금 완료' : '상승 필요'}
+                                ${isUnlockedNow ? t.badgeRoadmapUnlocked : t.badgeRoadmapNeedRise}
                             </span>
                         </div>
                         <h4 class="font-bold text-white text-sm">${w.name}</h4>
@@ -2300,8 +2572,8 @@
                         
                         <div class="pt-2 border-t border-gray-800/80 text-xs">
                             ${isUnlockedNow ? 
-                                `<span class="text-emerald-400 font-bold">지금 바로 구매 가능!</span>` : 
-                                `<span class="text-gray-400">포트폴리오 <strong class="text-purple-300">+${pctGrowthNeeded.toFixed(0)}%</strong> 상승 시 해금</span>`
+                                `<span class="text-emerald-400 font-bold">${t.roadmapAvailableNow}</span>` : 
+                                `<span class="text-gray-400">${t.roadmapRisePrefix} <strong class="text-purple-300">+${pctGrowthNeeded.toFixed(0)}%</strong> ${t.roadmapRiseSuffix}</span>`
                             }
                         </div>
                     </div>
@@ -2310,7 +2582,9 @@
         }
 
         function openAddWishlistModal() {
-            document.getElementById('wishlistModalTitle').textContent = '새로운 물욕 아이템 추가';
+            const t = translations[currentLang] || translations.ko;
+            document.getElementById('wishlistModalTitle').textContent = t.modalAddWishlistTitle;
+            document.getElementById('modalSaveWishlistBtn').textContent = t.modalSaveWishlistBtn;
             document.getElementById('editWishlistId').value = '';
             document.getElementById('wishlistForm').reset();
             document.getElementById('fileUploadStatus').textContent = '';
@@ -2324,10 +2598,12 @@
 
         function openEditWishlistModal(event, id) {
             if (event) event.stopPropagation();
+            const t = translations[currentLang] || translations.ko;
             const item = wishlists.find(w => w.id === id);
             if (!item) return;
 
-            document.getElementById('wishlistModalTitle').textContent = '물욕 아이템 수정';
+            document.getElementById('wishlistModalTitle').textContent = t.modalEditWishlistTitle;
+            document.getElementById('modalSaveWishlistBtn').textContent = t.modalSaveWishlistBtn;
             document.getElementById('editWishlistId').value = item.id;
             document.getElementById('newItemName').value = item.name;
             document.getElementById('newItemModelCode').value = item.modelCode || '';
@@ -2385,7 +2661,7 @@
 
             const duplicatedObj = {
                 id: 'w' + (wishlists.length + 1) + Date.now(),
-                name: `${item.name} (복제본)`,
+                name: `${item.name} (Copy)`,
                 modelCode: item.modelCode || '',
                 desireDate: item.desireDate || '',
                 targetDate: item.targetDate || '',
@@ -2405,7 +2681,9 @@
         }
 
         function openAddStockModal() {
-            document.getElementById('stockModalTitle').textContent = '새 주식 종목 추가';
+            const t = translations[currentLang] || translations.ko;
+            document.getElementById('stockModalTitle').textContent = t.modalAddStockTitle;
+            document.getElementById('saveStockBtn').textContent = t.modalSaveStockBtn;
             document.getElementById('editStockId').value = '';
             document.getElementById('stockForm').reset();
             
@@ -2419,17 +2697,19 @@
             document.getElementById('currentHoldingsSummary').classList.add('hidden');
             document.getElementById('addPurchaseSection').classList.add('hidden');
             document.getElementById('purchaseHistoryContainer').classList.add('hidden');
-            document.getElementById('sharesLabel').textContent = '보유 수량(주)';
-            document.getElementById('buyPriceLabel').textContent = '매수가';
+            document.getElementById('sharesLabel').textContent = t.modalHoldingsTotalSharesPrefix || '보유 수량(주)';
+            document.getElementById('buyPriceLabel').textContent = t.modalHoldingsAvgPricePrefix || '매수가';
             document.getElementById('stockModal').classList.remove('hidden');
         }
 
         function openEditStockModal(event, id) {
             if (event) event.stopPropagation();
+            const t = translations[currentLang] || translations.ko;
             const stock = stocks.find(s => s.id === id);
             if (!stock) return;
 
-            document.getElementById('stockModalTitle').textContent = '보유 주식 수정';
+            document.getElementById('stockModalTitle').textContent = t.modalEditStockTitle;
+            document.getElementById('saveStockBtn').textContent = t.modalSaveStockBtn;
             document.getElementById('editStockId').value = stock.id;
             document.getElementById('newStockName').value = stock.name;
             document.getElementById('newStockTicker').value = stock.ticker;
@@ -2443,7 +2723,7 @@
             document.getElementById('saveStockBtn').classList.add('w-2/3');
 
             document.getElementById('currentHoldingsSummary').classList.remove('hidden');
-            document.getElementById('summaryCurrentShares').textContent = `${stock.shares}주`;
+            document.getElementById('summaryCurrentShares').textContent = `${stock.shares} ${t.stockHoldingsPrefix}`;
             
             const currentBuyPriceUsd = stock.buyPrice || stock.priceUsd;
             document.getElementById('summaryCurrentAvgPrice').textContent = formatCurrency(currentBuyPriceUsd, stock.buyCurrency || 'USD');
@@ -2457,8 +2737,8 @@
             const initialShares = stock.initialShares !== undefined ? stock.initialShares : stock.shares;
             const initialBuyPrice = stock.initialBuyPrice !== undefined ? stock.initialBuyPrice : (stock.buyPrice || stock.priceUsd);
 
-            document.getElementById('sharesLabel').textContent = '보유 수량(주)';
-            document.getElementById('buyPriceLabel').textContent = '매수가';
+            document.getElementById('sharesLabel').textContent = t.modalHoldingsTotalSharesPrefix || '보유 수량(주)';
+            document.getElementById('buyPriceLabel').textContent = t.modalHoldingsAvgPricePrefix || '매수가';
 
             document.getElementById('newStockShares').value = initialShares;
             document.getElementById('newStockBuyPrice').value = initialBuyPrice;
@@ -2501,7 +2781,7 @@
                 const curr = p.currency || stock.buyCurrency || 'USD';
                 return `
                     <div class="flex justify-between items-center bg-gray-800 border border-gray-700 rounded-lg px-2.5 py-1.5 text-xs">
-                        <span class="text-gray-300">추가매수 #${idx + 1}: <strong class="text-white">${p.shares}주</strong> @ <strong class="text-emerald-400">${formatCurrency(p.price, curr)}</strong></span>
+                        <span class="text-gray-300">#${idx + 1}: <strong class="text-white">${p.shares}</strong> @ <strong class="text-emerald-400">${formatCurrency(p.price, curr)}</strong></span>
                         <button type="button" onclick="deletePurchaseHistory('${stock.id}', ${idx})" class="text-[10px] bg-red-950 text-red-300 border border-red-800 hover:bg-red-900 px-2 py-0.5 rounded font-bold transition">삭제</button>
                     </div>
                 `;
@@ -2533,7 +2813,7 @@
             }
 
             saveStorage();
-            document.getElementById('summaryCurrentShares').textContent = `${stock.shares}주`;
+            document.getElementById('summaryCurrentShares').textContent = `${stock.shares}`;
             document.getElementById('summaryCurrentAvgPrice').textContent = formatCurrency(stock.buyPrice, stock.buyCurrency || 'USD');
             renderPurchaseHistoryList(stock);
             renderAll();
@@ -2582,7 +2862,7 @@
             document.getElementById('addStockShares').value = '';
             document.getElementById('addStockBuyPrice').value = '';
 
-            document.getElementById('summaryCurrentShares').textContent = `${stock.shares}주`;
+            document.getElementById('summaryCurrentShares').textContent = `${stock.shares}`;
             document.getElementById('summaryCurrentAvgPrice').textContent = formatCurrency(stock.buyPrice, stock.buyCurrency || 'USD');
             renderPurchaseHistoryList(stock);
             renderAll();
