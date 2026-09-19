@@ -101,7 +101,6 @@
 
             <!-- Global Controls -->
             <div class="flex items-center space-x-3 text-xs sm:text-sm flex-wrap gap-2">
-                <!-- 다국어 언어 선택기 -->
                 <div class="flex items-center bg-gray-900/90 border border-gray-700/80 rounded-lg px-2.5 py-1.5 space-x-1.5">
                     <i class="fa-solid fa-language text-purple-400"></i>
                     <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-gray-800 text-gray-200 font-semibold rounded px-1.5 py-0.5 border border-gray-700 focus:outline-none focus:border-purple-500 cursor-pointer text-xs">
@@ -408,19 +407,19 @@
         <div class="glass-card bg-gray-900 border-gray-700 rounded-2xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-gray-800 pb-3">
                 <h3 id="apiKeyModalHeader" class="font-bold text-white text-base flex items-center gap-2">
-                    <i class="fa-solid fa-key text-yellow-400"></i> API 키 설정 (Finnhub & 공공데이터포럼)
+                    <i class="fa-solid fa-key text-yellow-400"></i> API 키 설정 (Finnhub & 공공데이터포털)
                 </h3>
                 <button onclick="closeModal('apiKeyModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-3 text-xs text-gray-300">
-                <p id="apiKeyModalDesc" class="leading-relaxed">해외 주식 및 한국 주식 조회를 위한 API 설정입니다. 키를 입력하지 않아도 기본 내장 DB와 야후 파이낸스 시세가 작동합니다.</p>
+                <p id="apiKeyModalDesc" class="leading-relaxed">해외 주식 및 한국 주식 조회를 위한 API 설정입니다. 키를 입력하지 않아도 Yahoo Finance 시세 조회가 시도됩니다.</p>
                 <div>
                     <label id="finnhubKeyLabel" class="block text-gray-400 mb-1 font-semibold">Finnhub API Key (해외주식용)</label>
                     <input type="text" id="globalFinnhubApiKeyInput" placeholder="예: c1234567890abcdef" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-purple-500">
                 </div>
                 <div class="pt-1">
-                    <label id="dataGovKeyLabel" class="block text-gray-400 mb-1 font-semibold">공공데이터포럼 인증키 (ServiceKey - 한국주식용)</label>
-                    <input type="text" id="globalDataGovKeyInput" placeholder="공공데이터포럼 인증키 (Encoding/Decoding)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-purple-500">
+                    <label id="dataGovKeyLabel" class="block text-gray-400 mb-1 font-semibold">공공데이터포털 인증키 (Decoding 키 권장 - 한국주식용)</label>
+                    <input type="text" id="globalDataGovKeyInput" placeholder="공공데이터포털 일반 인증키" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-purple-500">
                 </div>
                 <div class="pt-2">
                     <button type="button" onclick="saveApiKeyFromModal()" id="apiKeySaveBtnText" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition">API 키 저장하기</button>
@@ -742,9 +741,6 @@
 
     <!-- JAVASCRIPT APP LOGIC -->
     <script>
-        // ==========================================
-        // 🌐 완전한 다국어 (i18n) 번역 사전 및 옵션
-        // ==========================================
         const translations = {
             ko: {
                 appSubtitle: "주식 수익률로 실물 물욕 채우기 프로젝트",
@@ -807,7 +803,7 @@
                 ddayDesirePrefix: "갖고 싶어진 지 D+",
                 ddayTargetPrefix: "소유 목표까지 D-",
                 ddayExpired: "소유 목표일 지남",
-                yearText: "년",
+                yearText: "년 ",
                 dayText: "일",
                 modalAddStockTitle: "새 주식 종목 추가",
                 modalEditStockTitle: "보유 주식 수정",
@@ -1183,7 +1179,6 @@
             document.getElementById('bannerText').textContent = t.bannerText;
             document.getElementById('bannerSubText').textContent = t.bannerSub;
 
-            // 모달 및 삭제 확인 다이얼로그 텍스트
             document.getElementById('btnConfirmYes').textContent = t.confirmYes;
             document.getElementById('btnConfirmNo').textContent = t.confirmNo;
             document.getElementById('deleteConfirmTitle').textContent = t.confirmDeleteStockTitle;
@@ -1197,7 +1192,6 @@
             document.getElementById('modalDupBtnText').textContent = t.modalDupWishlistBtn;
             document.getElementById('detailPriceLabel').textContent = t.cardPriceLabel;
 
-            // 드롭다운 정렬 옵션 다국어 렌더링
             populateSortDropdowns();
             updateCategoryFilterDropdown();
         }
@@ -1205,28 +1199,24 @@
         function populateSortDropdowns() {
             const t = translations[currentLang] || translations.ko;
 
-            // 1. 상단 주식 정렬
             const stockSortSelect = document.getElementById('stockSortSelect');
             const currentStockSort = stockSortSelect.value || 'valueDesc';
             stockSortSelect.innerHTML = Object.entries(t.stockSortOptions).map(([val, text]) => 
                 `<option value="${val}" ${currentStockSort === val ? 'selected' : ''}>${text}</option>`
             ).join('');
 
-            // 2. 포트폴리오 주식 정렬
             const portfolioStockSortSelect = document.getElementById('portfolioStockSortSelect');
             const currentPortSort = portfolioStockSortSelect.value || 'valueDesc';
             portfolioStockSortSelect.innerHTML = Object.entries(t.stockSortOptions).map(([val, text]) => 
                 `<option value="${val}" ${currentPortSort === val ? 'selected' : ''}>${text}</option>`
             ).join('');
 
-            // 3. 상단 위시리스트 정렬
             const wishlistSortSelect = document.getElementById('wishlistSortSelect');
             const currentWishSort = wishlistSortSelect.value || 'priceDesc';
             wishlistSortSelect.innerHTML = Object.entries(t.wishlistSortOptions).map(([val, text]) => 
                 `<option value="${val}" ${currentWishSort === val ? 'selected' : ''}>${text}</option>`
             ).join('');
 
-            // 4. 하단 위시리스트 정렬
             const bottomWishlistSortSelect = document.getElementById('bottomWishlistSortSelect');
             const currentBottomWishSort = bottomWishlistSortSelect.value || 'priceDesc';
             const filteredWishOptions = { ...t.wishlistSortOptions };
@@ -1237,7 +1227,7 @@
         }
 
         // ==========================================
-        // 💾 기본 데이터 및 영구 저장소
+        // 💾 기본 데이터 관리 (Mock DB 제거됨)
         // ==========================================
         const initialDefaultStocks = [
             { id: 's1', name: '구글 (Alphabet)', ticker: 'GOOGL', initialShares: 20, initialBuyPrice: 150.00, shares: 20, selectedShares: 20, buyPrice: 150.00, buyCurrency: 'USD', currentCurrency: 'USD', priceUsd: 175.50, purchases: [] },
@@ -1278,9 +1268,6 @@
             }
         }
 
-        // ==========================================
-        // 📈 환율 및 앱 상태 관리
-        // ==========================================
         let ratesTable = { USD: 1, KRW: 1380, EUR: 0.92, JPY: 155, GBP: 0.78, CHF: 0.89 };
         let baseCurrency = 'USD';
         let targetCurrency = 'KRW';
@@ -1308,7 +1295,7 @@
         }
 
         function getDataGovServiceKey() {
-            return localStorage.getItem('data_gov_service_key') || '';
+            return (localStorage.getItem('data_gov_service_key') || '').trim();
         }
 
         const krStockDb = [
@@ -1341,21 +1328,6 @@
             '가전기기': ['생활가전', '주방가전', '영상 및 음향가전', '계절가전', '기타'],
             'IT기기': ['스마트폰', '태블릿', '데스크탑', '노트북', '이어폰', '마우스', '기타'],
             '기타': ['직접 입력 (사용자 입력)']
-        };
-
-        const stockPriceDb = {
-            'GOOGL': 175.50, 'GOOGLE': 175.50, '구글': 175.50, 'ALPHABET': 175.50,
-            'TSLA': 220.50, 'TESLA': 220.50, '테슬라': 220.50,
-            'NVDA': 125.00, 'NVIDIA': 125.00, '엔비디아': 125.00,
-            'SPCX': 130.00, 'SPACEX': 130.00, '스페이스엑스': 130.00,
-            'AAPL': 225.30, 'APPLE': 225.30, '애플': 225.30,
-            'SNDK': 85.40, 'SANDISK': 85.40, '샌디스크': 85.40,
-            'TSM': 168.20, 'TSMC': 168.20, '티에스엠씨': 168.20,
-            'MSFT': 448.90, 'MICROSOFT': 448.90, '마이크로소프트': 448.90,
-            'AMZN': 186.10, 'AMAZON': 186.10, '아마존': 186.10,
-            '005930': 78500, 'SAMSUNG': 78500, '삼성전자': 78500,
-            '000660': 182000, 'SK하이닉스': 182000,
-            '035720': 42500, '카카오': 42500
         };
 
         let selectedStockIds = [];
@@ -1422,9 +1394,6 @@
             document.getElementById('newItemTargetDate').value = '';
         }
 
-        // ==========================================
-        // 🔥 물욕 모드 컨트롤러
-        // ==========================================
         function handleTitleDesirePressStart() {
             desireTitlePressTimer = setTimeout(() => {
                 activateDesireMode();
@@ -1487,9 +1456,6 @@
             }
         }
 
-        // ==========================================
-        // 🚀 초기화 및 안전 통신
-        // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             applyLanguage();
             setupEventListeners();
@@ -1499,7 +1465,7 @@
             refreshAllStockPrices(false);
         });
 
-        async function fetchWithTimeout(url, timeout = 3500) {
+        async function fetchWithTimeout(url, timeout = 4000) {
             const controller = new AbortController();
             const id = setTimeout(() => controller.abort(), timeout);
             try {
@@ -1510,6 +1476,36 @@
                 clearTimeout(id);
                 throw err;
             }
+        }
+
+        // ==========================================
+        // 🔍 실제 공공데이터포털 API 호출 핵심 함수
+        // ==========================================
+        async function fetchRealDataGovPrice(searchTerm, rawKey) {
+            if (!rawKey) return 0;
+
+            const cleanKey = rawKey.includes('%') ? decodeURIComponent(rawKey) : rawKey;
+            const encodedServiceKey = encodeURIComponent(cleanKey);
+
+            const isCode = /^\d{6}$/.test(searchTerm);
+            const queryParam = isCode ? `likeSrtnCd=${searchTerm}` : `likeItmsNm=${encodeURIComponent(searchTerm)}`;
+
+            const url = `https://apis.data.go.kr/1160100/service/GetStockMarketSeriesService/getStocPriceInfo?serviceKey=${encodedServiceKey}&resultType=json&${queryParam}&numOfRows=1`;
+
+            try {
+                const res = await fetchWithTimeout(url, 4000);
+                const json = await res.json();
+                const items = json?.response?.body?.items?.item;
+                if (items && items.length > 0) {
+                    const clpr = parseFloat(items[0].clpr);
+                    if (!isNaN(clpr) && clpr > 0) {
+                        return { price: clpr, name: items[0].itmsNm, ticker: items[0].srtnCd };
+                    }
+                }
+            } catch (e) {
+                console.warn('공공데이터포털 API 호출 실패:', e);
+            }
+            return null;
         }
 
         async function refreshAllStockPrices(showUserNotice = false) {
@@ -1525,18 +1521,13 @@
 
                     let fetchedPrice = 0;
                     if (dataGovKey) {
-                        try {
-                            const url = `https://apis.data.go.kr/1160100/service/GetStockMarketSeriesService/getStocPriceInfo?serviceKey=${dataGovKey}&resultType=json&likeItmsNm=${encodeURIComponent(s.name)}&numOfRows=1`;
-                            const res = await fetchWithTimeout(url, 2500);
-                            const json = await res.json();
-                            const items = json?.response?.body?.items?.item;
-                            if (items && items.length > 0) {
-                                fetchedPrice = parseFloat(items[0].clpr);
-                            }
-                        } catch (e) {}
+                        const krData = await fetchRealDataGovPrice(s.ticker || s.name, dataGovKey);
+                        if (krData && krData.price > 0) {
+                            fetchedPrice = krData.price;
+                        }
                     }
 
-                    if (!fetchedPrice) {
+                    if (!fetchedPrice && s.ticker) {
                         try {
                             const proxyUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${s.ticker}.KS`;
                             const res = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(proxyUrl)}`, 3000);
@@ -1544,10 +1535,6 @@
                             const parsedData = JSON.parse(json.contents);
                             fetchedPrice = parsedData.chart.result[0].meta.regularMarketPrice;
                         } catch (e) {}
-                    }
-
-                    if (!fetchedPrice) {
-                        fetchedPrice = stockPriceDb[s.ticker] || stockPriceDb[s.name];
                     }
 
                     if (fetchedPrice) {
@@ -1576,10 +1563,6 @@
                             const parsedData = JSON.parse(json.contents);
                             fetchedUsd = parsedData.chart.result[0].meta.regularMarketPrice;
                         } catch (e) {}
-                    }
-
-                    if (!fetchedUsd) {
-                        fetchedUsd = stockPriceDb[s.ticker] || stockPriceDb[s.name];
                     }
 
                     if (fetchedUsd) {
@@ -1711,25 +1694,70 @@
                 document.getElementById('newStockCurrentCurrency').value = 'KRW';
                 if (krTicker) document.getElementById('newStockTicker').value = krTicker;
 
-                const fallbackPrice = stockPriceDb[krTicker] || stockPriceDb[nameInput] || stockPriceDb[searchQuery.toUpperCase()];
-                if (fallbackPrice) {
-                    document.getElementById('newStockPrice').value = fallbackPrice;
-                    alert(`[${nameInput || krTicker}] 시세(₩${fallbackPrice.toLocaleString()})가 적용되었습니다.`);
-                    return;
+                const dataGovKey = getDataGovServiceKey();
+
+                if (dataGovKey) {
+                    const krData = await fetchRealDataGovPrice(krTicker || nameInput, dataGovKey);
+                    if (krData && krData.price > 0) {
+                        document.getElementById('newStockPrice').value = krData.price;
+                        alert(`[공공데이터포털] [${krData.name || nameInput}] 실시간 종가가 (₩${krData.price.toLocaleString()})로 적용되었습니다!`);
+                        return;
+                    }
                 }
+
+                if (krTicker) {
+                    try {
+                        const proxyUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${krTicker}.KS`;
+                        const res = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(proxyUrl)}`, 3000);
+                        const json = await res.json();
+                        const parsedData = JSON.parse(json.contents);
+                        const krPrice = parsedData.chart.result[0].meta.regularMarketPrice;
+
+                        if (krPrice && krPrice > 0) {
+                            document.getElementById('newStockPrice').value = krPrice;
+                            alert(`[Yahoo Finance] [${nameInput || krTicker}] 시세(₩${krPrice.toLocaleString()})가 적용되었습니다.`);
+                            return;
+                        }
+                    } catch (err) {}
+                }
+
+                alert(`[${nameInput || krTicker}] 시세를 자동으로 가져오지 못했습니다.\n\n원인 안내:\n1. 공공데이터포털 인증키 발급 후 동기화 대기 시간(약 1시간) 중이거나\n2. 종목명이 불일치할 수 있습니다.\n\n현재 주가 칸에 오늘 가격을 직접 입력해 주세요.`);
+                return;
             }
 
             document.getElementById('newStockCurrency').value = 'USD';
             document.getElementById('newStockCurrentCurrency').value = 'USD';
 
-            const upperSearch = searchQuery.toUpperCase();
-            if (stockPriceDb[upperSearch]) {
-                const priceInUsd = stockPriceDb[upperSearch];
-                document.getElementById('newStockPrice').value = priceInUsd;
-                alert(`[${searchQuery}] 시세($${priceInUsd})가 적용되었습니다.`);
-            } else {
-                alert(`[${searchQuery}] 시세를 가져오지 못했습니다. 현재 주가 칸에 직접 입력해 주세요.`);
+            const apiKey = getFinnhubApiKey();
+            if (apiKey && tickerInput) {
+                try {
+                    const res = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${tickerInput}&token=${apiKey}`, 3000);
+                    const data = await res.json();
+                    if (data && data.c && data.c > 0) {
+                        document.getElementById('newStockPrice').value = data.c;
+                        alert(`[Finnhub] [${tickerInput}] 시세($${data.c})가 적용되었습니다.`);
+                        return;
+                    }
+                } catch (e) {}
             }
+
+            if (tickerInput) {
+                try {
+                    const proxyUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${tickerInput}`;
+                    const res = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(proxyUrl)}`, 3000);
+                    const json = await res.json();
+                    const parsedData = JSON.parse(json.contents);
+                    const usPrice = parsedData.chart.result[0].meta.regularMarketPrice;
+
+                    if (usPrice && usPrice > 0) {
+                        document.getElementById('newStockPrice').value = usPrice;
+                        alert(`[Yahoo Finance] [${tickerInput}] 시세($${usPrice.toLocaleString()})가 적용되었습니다.`);
+                        return;
+                    }
+                } catch (err) {}
+            }
+
+            alert(`[${searchQuery}] 시세를 가져오지 못했습니다. 현재 주가 칸에 직접 입력해 주세요.`);
         }
 
         function openApiKeyModal() {
